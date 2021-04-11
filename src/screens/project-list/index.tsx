@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { SearchPanel } from "./project-list/search-panel";
-import { List } from "./project-list/list";
+import { SearchPanel } from "./search-panel";
+import { List } from "./list";
 import qs from "qs";
 import { cleanObject, useDebounce, useMount } from "utils";
 
@@ -19,7 +19,7 @@ export const ProjectListScreen = () => {
   useEffect(() => {
     fetch(
       `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
-    ).then(async (response) => {
+    ).then(async (response: Response) => {
       if (response.ok) {
         setList(await response.json());
       }
