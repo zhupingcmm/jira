@@ -1,19 +1,9 @@
 import React, { FormEvent, FormEventHandler } from "react";
+import { useAuth } from "screens/context/auth-context";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 export const LoginScreen = () => {
-  const login = (param: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param),
-    }).then(async (res: Response) => {
-      if (res.ok) {
-      }
-    });
-  };
+  const { login, user, register } = useAuth();
   const hanldeSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const username = (evt.currentTarget.elements[0] as HTMLFormElement).value;
@@ -23,6 +13,7 @@ export const LoginScreen = () => {
 
   return (
     <form onSubmit={hanldeSubmit}>
+      {user ? <div>{user?.name} login successfuly</div> : null}
       <div>
         <label htmlFor="username">username</label>
         <input type="text" id={"username"} />
