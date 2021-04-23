@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
 import { ProjectListScreen } from "screens/project-list";
-import { LoginScreen } from "screens/login";
 
 import "./App.css";
 import { useAuth } from "screens/context/auth-context";
@@ -14,8 +13,6 @@ function App() {
       {
         user ? <ProjectListScreen /> : <UnauthenticatedApp/>
       }
-      
-      {/* <LoginScreen /> */}
     </div>
   );
 }
