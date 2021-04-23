@@ -5,12 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
 import { AppProviders } from "screens/context";
+import {UnauthenticatedApp} from "unauthenticated-app";
+import {AuthenticatedApp} from "authenticated-app";
 
 loadDevTools(() => {
   ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
-        <App />
+        <App/>
       </AppProviders>
     </React.StrictMode>,
     document.getElementById("root")
