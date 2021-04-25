@@ -10,15 +10,15 @@ interface AuthForm {
 }
 
 const bootStrapUser = async () => {
-    let user = null;
-    const token = auth.getToken();
-    if (token) {
-        const data = await http('me', { token })
-        user = data.user;
-    }
+  let user = null;
+  const token = auth.getToken();
+  if (token) {
+    const data = await http("me", { token });
+    user = data.user;
+  }
 
-    return user;
-}
+  return user;
+};
 
 const AuthContext = React.createContext<
   | {
@@ -40,10 +40,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     auth.register(form).then((user) => setUser(user));
   const logout = () => auth.logout().then(() => setUser(null));
 
-  // init user 
+  // init user
   useMount(() => {
-      bootStrapUser().then((user)=> setUser(user))
-  })
+    bootStrapUser().then((user) => setUser(user));
+  });
 
   return (
     <AuthContext.Provider

@@ -5,13 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
 import { AppProviders } from "screens/context";
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 
 loadDevTools(() => {
   ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
-        <App/>
+        <App />
       </AppProviders>
     </React.StrictMode>,
     document.getElementById("root")

@@ -15,26 +15,28 @@ interface ListProps {
   list: Project[];
 }
 export const List = ({ users, list }: ListProps) => {
-  return <Table 
-                pagination={false} 
-                dataSource={list}
-                columns={[
-                  {
-                    title:"名称",
-                    dataIndex:'name',
-                    sorter: (a, b) => a.name.localeCompare(b.name)
-                  },
-                  {
-                    title: "负责人",
-                    render(value, project) {
-                      return (
-                        <span>
-                          {users.find((user) => user.id === project.personId)?.name ||
-                            "N/A"}
-                        </span>
-                      );
-                    },
-                  },
-                ]}
-              />
+  return (
+    <Table
+      pagination={false}
+      dataSource={list}
+      columns={[
+        {
+          title: "名称",
+          dataIndex: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: "负责人",
+          render(value, project) {
+            return (
+              <span>
+                {users.find((user) => user.id === project.personId)?.name ||
+                  "N/A"}
+              </span>
+            );
+          },
+        },
+      ]}
+    />
+  );
 };
