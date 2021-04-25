@@ -5,8 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
 import { AppProviders } from "screens/context";
-import {UnauthenticatedApp} from "unauthenticated-app";
-import {AuthenticatedApp} from "authenticated-app";
+import 'antd/dist/antd.css';
 
 loadDevTools(() => {
   ReactDOM.render(
