@@ -6,15 +6,16 @@ import { ProjectListScreen } from "screens/project-list";
 import "./App.css";
 import { useAuth } from "screens/context/auth-context";
 import { UnauthenticatedApp } from "unauthenticated-app";
+import {AuthenticatedApp} from "authenticated-app";
 
 function App() {
   const { user, logout } = useAuth();
   return (
     <div className="App">
-      <Button type="dashed" onClick={() => logout()}>
+      {/* <Button type="dashed" onClick={() => logout()}>
         Logout
-      </Button>
-      {user ? <ProjectListScreen /> : <UnauthenticatedApp />}
+      </Button> */}
+      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
     </div>
   );
 }
