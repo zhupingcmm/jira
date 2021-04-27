@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const cleanObject = (obj: any) => {
+export const cleanObject = (obj: {[key: string]: unknown}) => {
   const result = { ...obj };
 
   Object.keys(obj).forEach((key) => {

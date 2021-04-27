@@ -5,8 +5,6 @@ import { cleanObject, useDebounce, useMount } from "utils";
 import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: "",
