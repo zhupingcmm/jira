@@ -1,5 +1,6 @@
-import { Input, Select, Form } from "antd";
 import React from "react";
+import { Input, Select, Form } from "antd";
+
 
 export interface User {
   id: number;
@@ -11,7 +12,7 @@ interface SearchPanelProps {
   users: User[];
   param: {
     name: string;
-    personId: string;
+    personId: number;
   };
   setParam: (param: SearchPanelProps["param"]) => void;
 }

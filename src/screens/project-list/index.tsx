@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { SearchPanel } from "./search-panel";
+import { SearchPanel, User } from "./search-panel";
 import { List } from "./list";
 import { cleanObject, useDebounce, useMount } from "utils";
 import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
+import { Typography } from "antd";
+import { useProject } from "utils/use-project";
+
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: "",
-    personId: "",
+    personId: 1,
   });
-  const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
   const client = useHttp();
 
   const debouncedParam = useDebounce(param, 200);
 
-  useEffect(() => {
-    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
-  }, [debouncedParam]);
+  const {isLoading, isError, error, data: list} = useProject(debouncedParam)
 
   useMount(() => {
     client("users").then(setUsers);
@@ -28,7 +28,8 @@ export const ProjectListScreen = () => {
     <Container>
       <h1>项目列表</h1>
       <SearchPanel param={param} setParam={setParam} users={users} />
-      <List list={list} users={users} />
+      {isError ? <Typography.Text>{error}</Typography.Text> : null}
+      <List dataSource={list || undefined} users={users} loading={isLoading}/>
     </Container>
   );
 };
