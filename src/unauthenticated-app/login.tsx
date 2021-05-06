@@ -1,12 +1,20 @@
 import { Form, Input,  } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "screens/context/auth-context";
 import { LongButton } from "unauthenticated-app";
+import { useAsync } from "utils/use-async";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({setError}: {setError:(error: Error) => void}) => {
   const { login } = useAuth();
-  const hanldeSubmit = (values: { username: string; password: string }) => {
-    login(values);
+  const {run, isLoading} = useAsync();
+  
+  const hanldeSubmit = async (values: { username: string; password: string }) => {
+    try {
+      await run(login(values));
+    } catch(e) {
+      console.log(e,"wo shu error")
+      setError(e);
+    }
   };
 
   return (
@@ -24,7 +32,7 @@ export const LoginScreen = () => {
         <Input placeholder={"password"} type="password" id={"password"} />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType="submit" type="primary">
+        <LongButton htmlType="submit" type="primary" loading={isLoading}>
           login
         </LongButton>
       </Form.Item>
