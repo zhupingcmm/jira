@@ -1,8 +1,11 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import * as auth from "auth-provider";
 import { User } from "screens/project-list/search-panel";
 import { http } from "utils/http";
 import { useMount } from "utils";
+import { useAsync } from "utils/use-async";
+import {FullPageLoading, FullPageError} from "componnets/lib";
+import {DevTools} from "jira-dev-tool";
 
 interface AuthForm {
   username: string;
@@ -32,7 +35,8 @@ const AuthContext = React.createContext<
 AuthContext.displayName = "AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
+  const {isIdle, isLoading, run, setData: setUser, data: user, isError, error} = useAsync<User | null>();
 
   const login = (form: AuthForm) =>
     auth.login(form).then((user) => setUser(user));
@@ -42,8 +46,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // init user
   useMount(() => {
-    bootStrapUser().then((user) => setUser(user));
+    run(bootStrapUser())
+    // bootStrapUser().then((user) => setUser(user));
   });
+
+  if (isIdle || isLoading) {
+    return <FullPageLoading />
+  }
+
+  if (isError) {
+    return <FullPageError error={error}/>
+  }
 
   return (
     <AuthContext.Provider
