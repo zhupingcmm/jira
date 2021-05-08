@@ -7,15 +7,17 @@ import "./App.css";
 import { useAuth } from "screens/context/auth-context";
 import { UnauthenticatedApp } from "unauthenticated-app";
 import {AuthenticatedApp} from "authenticated-app";
+import {ErrorBoundary} from "componnets/error-boundary";
+import { FullPageError } from "componnets/lib";
 
 function App() {
   const { user } = useAuth();
   return (
     <div className="App">
-      {/* <Button type="dashed" onClick={() => logout()}>
-        Logout
-      </Button> */}
-      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      <ErrorBoundary fallbackRender={FullPageError}>
+        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      </ErrorBoundary>
+     
     </div>
   );
 }
