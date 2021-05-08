@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { SearchPanel, User } from "./search-panel";
 import { List } from "./list";
-import { cleanObject, useDebounce, useMount } from "utils";
+import { cleanObject, useDebounce, useDocumentTitle, useMount } from "utils";
 import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProject } from "utils/use-project";
+
 
 
 export const ProjectListScreen = () => {
@@ -16,6 +17,8 @@ export const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
   const client = useHttp();
 
+  useDocumentTitle("Project List", false);
+
   const debouncedParam = useDebounce(param, 200);
 
   const {isLoading, isError, error, data: list} = useProject(debouncedParam)
@@ -23,6 +26,7 @@ export const ProjectListScreen = () => {
   useMount(() => {
     client("users").then(setUsers);
   });
+
 
   return (
     <Container>

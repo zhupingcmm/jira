@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const cleanObject = (obj: {[key: string]: unknown}) => {
   const result = { ...obj };
@@ -30,3 +30,21 @@ export const useDebounce = <V>(value: V, delay?: number) => {
 
   return debounceValue;
 };
+
+
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean= true ) => {
+
+  const oldTitle = useRef(document.title).current ;
+
+  useEffect(() => {
+    document.title = title
+  }, [title]);
+
+  useEffect(()=> {
+    return () => {
+      if(!keepOnUnmount) {
+        document.title = oldTitle;
+      }
+    }
+  }, [keepOnUnmount, oldTitle])
+}
