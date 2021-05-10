@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export const cleanObject = (obj: {[key: string]: unknown}) => {
+export const cleanObject = (obj: { [key: string]: unknown }) => {
   const result = { ...obj };
 
   Object.keys(obj).forEach((key) => {
@@ -31,22 +31,23 @@ export const useDebounce = <V>(value: V, delay?: number) => {
   return debounceValue;
 };
 
-
-export const useDocumentTitle = (title: string, keepOnUnmount: boolean= true ) => {
-
-  const oldTitle = useRef(document.title).current ;
+export const useDocumentTitle = (
+  title: string,
+  keepOnUnmount: boolean = true
+) => {
+  const oldTitle = useRef(document.title).current;
 
   useEffect(() => {
-    document.title = title
+    document.title = title;
   }, [title]);
 
-  useEffect(()=> {
+  useEffect(() => {
     return () => {
-      if(!keepOnUnmount) {
+      if (!keepOnUnmount) {
         document.title = oldTitle;
       }
-    }
-  }, [keepOnUnmount, oldTitle])
-}
+    };
+  }, [keepOnUnmount, oldTitle]);
+};
 
-export const RouteReset = () => window.location.href = window.location.origin;
+export const RouteReset = () => (window.location.href = window.location.origin);

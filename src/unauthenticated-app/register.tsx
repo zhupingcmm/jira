@@ -4,11 +4,22 @@ import { Form, Input } from "antd";
 import { useAuth } from "screens/context/auth-context";
 import { LongButton } from "unauthenticated-app";
 
-export const RegisterScreen = ({setError}: {setError:(error: Error) => void}) => {
+export const RegisterScreen = ({
+  setError,
+}: {
+  setError: (error: Error) => void;
+}) => {
   const { register } = useAuth();
-  const hanldeSubmit = async({cpassword ,...values}: { username: string; password: string, cpassword: string }) => {
+  const hanldeSubmit = async ({
+    cpassword,
+    ...values
+  }: {
+    username: string;
+    password: string;
+    cpassword: string;
+  }) => {
     if (cpassword !== values.password) {
-      setError(new Error("密码输入错误！！！"))
+      setError(new Error("密码输入错误！！！"));
       return;
     }
     try {
@@ -16,7 +27,6 @@ export const RegisterScreen = ({setError}: {setError:(error: Error) => void}) =>
     } catch (e) {
       setError(e);
     }
-    
   };
 
   return (

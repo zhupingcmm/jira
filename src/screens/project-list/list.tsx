@@ -12,10 +12,10 @@ export interface Project {
   created: number;
 }
 
-interface ListProps extends TableProps<Project>{
+interface ListProps extends TableProps<Project> {
   users: User[];
 }
-export const List = ({ users, ...props}: ListProps) => {
+export const List = ({ users, ...props }: ListProps) => {
   return (
     <Table
       pagination={false}
@@ -26,12 +26,12 @@ export const List = ({ users, ...props}: ListProps) => {
           // dataIndex: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
-            return <Link to={String(project.id)}>{project.name}</Link>
-          }
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
         },
         {
           title: "部门",
-          dataIndex: "organization"
+          dataIndex: "organization",
         },
         {
           title: "负责人",
@@ -49,11 +49,13 @@ export const List = ({ users, ...props}: ListProps) => {
           render(value, project) {
             return (
               <span key={project?.personId}>
-                {project?.created ? dayjs(project.personId).format('YYYY-MM-DDTHH:mm:ss') : 'N/A'}
+                {project?.created
+                  ? dayjs(project.personId).format("YYYY-MM-DDTHH:mm:ss")
+                  : "N/A"}
               </span>
-            )
-          }
-        }
+            );
+          },
+        },
       ]}
     />
   );

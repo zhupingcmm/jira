@@ -1,18 +1,25 @@
-import { Form, Input,  } from "antd";
+import { Form, Input } from "antd";
 import React, { useState } from "react";
 import { useAuth } from "screens/context/auth-context";
 import { LongButton } from "unauthenticated-app";
 import { useAsync } from "utils/use-async";
 
-export const LoginScreen = ({setError}: {setError:(error: Error) => void}) => {
+export const LoginScreen = ({
+  setError,
+}: {
+  setError: (error: Error) => void;
+}) => {
   const { login } = useAuth();
-  const {run, isLoading, isSuccess} = useAsync();
-  
-  const hanldeSubmit = async (values: { username: string; password: string }) => {
+  const { run, isLoading, isSuccess } = useAsync();
+
+  const hanldeSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
     try {
       await run(login(values));
-      window.location.href ="/project"
-    } catch(e) {
+      window.location.href = "/project";
+    } catch (e) {
       setError(e);
     }
   };

@@ -6,8 +6,8 @@ import React from "react";
 import "./App.css";
 import { useAuth } from "screens/context/auth-context";
 import { UnauthenticatedApp } from "unauthenticated-app";
-import {AuthenticatedApp} from "authenticated-app";
-import {ErrorBoundary} from "componnets/error-boundary";
+import { AuthenticatedApp } from "authenticated-app";
+import { ErrorBoundary } from "componnets/error-boundary";
 import { FullPageError } from "componnets/lib";
 
 function App() {
@@ -17,7 +17,6 @@ function App() {
       <ErrorBoundary fallbackRender={FullPageError}>
         {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
       </ErrorBoundary>
-     
     </div>
   );
 }
