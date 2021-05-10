@@ -9,10 +9,8 @@ import { useProject } from "utils/use-project";
 import { useUrlQueryParam } from "utils/url";
 
 export const ProjectListScreen = () => {
-
-  const [keys] = useState<('name'| 'personId')[]>(['name', 'personId']);
-  const [param, setParam] = useUrlQueryParam(keys)
-  console.log("param::", param)
+  const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
+  const [param, setParam] = useUrlQueryParam(keys);
   const [users, setUsers] = useState([]);
   const client = useHttp();
   useDocumentTitle("Project List", false);
