@@ -27,6 +27,7 @@ export const ProjectListScreen = () => {
     client("users").then(setUsers);
   });
 
+  console.log("List:", list);
 
   return (
     <Container>

@@ -4,33 +4,49 @@ import { ProjectListScreen } from "screens/project-list";
 import { Dropdown, Menu } from "antd";
 import styled from "@emotion/styled";
 import { Row } from "componnets/lib";
-import {ReactComponent as SoftWareLogo} from "assets/software-logo.svg"
+import {ReactComponent as SoftWareLogo} from "assets/software-logo.svg";
+import {Route, Routes} from "react-router";
+import {BrowserRouter as Router} from "react-router-dom";
+import {ProjectScreen} from "screens/project/index"
+
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth();
   return (
     <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          <SoftWareLogo width={'18rem'} color={'rgb(38, 132, 255)'}/>
-          <h2>项目</h2>
-          <h2>用户</h2>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown overlay={<Menu>
-            <Menu.Item key={'logout'}>
-              <a onClick={logout}>logout</a>
-            </Menu.Item>
-          </Menu>}>
-            <a onClick={(e)=> e.preventDefault()}> hi {user?.name}</a>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
+      <PageHeader/>
       <Main>
-        <ProjectListScreen />
+        <Router>
+          <Routes>
+            <Route path={"/project"} element={<ProjectListScreen/>}/>
+            <Route path={"/project/:projectId/*"} element={<ProjectScreen/>}/>
+          </Routes>
+        </Router>
       </Main>
     </Container>
   );
 };
+
+
+const PageHeader = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Header between={true}>
+    <HeaderLeft gap={true}>
+      <SoftWareLogo width={'18rem'} color={'rgb(38, 132, 255)'}/>
+      <h2>项目</h2>
+      <h2>用户</h2>
+    </HeaderLeft>
+    <HeaderRight>
+      <Dropdown overlay={<Menu>
+        <Menu.Item key={'logout'}>
+          <a onClick={logout}>logout</a>
+        </Menu.Item>
+      </Menu>}>
+        <a onClick={(e)=> e.preventDefault()}> hi {user?.name}</a>
+      </Dropdown>
+    </HeaderRight>
+  </Header>
+  )
+}
 
 const Container = styled.div`
   display: grid;

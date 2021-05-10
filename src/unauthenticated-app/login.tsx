@@ -6,13 +6,13 @@ import { useAsync } from "utils/use-async";
 
 export const LoginScreen = ({setError}: {setError:(error: Error) => void}) => {
   const { login } = useAuth();
-  const {run, isLoading} = useAsync();
+  const {run, isLoading, isSuccess} = useAsync();
   
   const hanldeSubmit = async (values: { username: string; password: string }) => {
     try {
       await run(login(values));
+      window.location.href ="/project"
     } catch(e) {
-      console.log(e,"wo shu error")
       setError(e);
     }
   };
