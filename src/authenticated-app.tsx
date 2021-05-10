@@ -1,13 +1,14 @@
 import React from "react";
 import { useAuth } from "screens/context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, Button } from "antd";
 import styled from "@emotion/styled";
 import { Row } from "componnets/lib";
 import {ReactComponent as SoftWareLogo} from "assets/software-logo.svg";
-import {Route, Routes} from "react-router";
+import {Route, Routes, Navigate} from "react-router";
 import {BrowserRouter as Router} from "react-router-dom";
 import {ProjectScreen} from "screens/project/index"
+import { RouteReset } from "utils";
 
 export const AuthenticatedApp = () => {
   return (
@@ -18,6 +19,7 @@ export const AuthenticatedApp = () => {
           <Routes>
             <Route path={"/project"} element={<ProjectListScreen/>}/>
             <Route path={"/project/:projectId/*"} element={<ProjectScreen/>}/>
+            <Navigate to={"/project"}/>
           </Routes>
         </Router>
       </Main>
@@ -31,7 +33,10 @@ const PageHeader = () => {
   return (
     <Header between={true}>
     <HeaderLeft gap={true}>
-      <SoftWareLogo width={'18rem'} color={'rgb(38, 132, 255)'}/>
+      <Button type="link" onClick={RouteReset}>
+        <SoftWareLogo width={'18rem'} color={'rgb(38, 132, 255)'}/>
+      </Button>
+      
       <h2>项目</h2>
       <h2>用户</h2>
     </HeaderLeft>
