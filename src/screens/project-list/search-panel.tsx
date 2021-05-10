@@ -2,7 +2,7 @@ import React from "react";
 import { Input, Select, Form } from "antd";
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   token: string;
 }
@@ -11,11 +11,12 @@ interface SearchPanelProps {
   users: User[];
   param: {
     name: string;
-    personId: number;
+    personId: string;
   };
   setParam: (param: SearchPanelProps["param"]) => void;
 }
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
+  console.log("users::", users)
   return (
     <Form layout={"inline"}>
       <Form.Item>
@@ -42,8 +43,9 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
         >
           <Select.Option value="">负责人</Select.Option>
           {users?.map((user) => {
+            console.log("user:::", user.name);
             return (
-              <Select.Option value={user.id} key={user.id}>
+              <Select.Option value={String(user.id)} key={user.id}>
                 {user.name}
               </Select.Option>
             );
