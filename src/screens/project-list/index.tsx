@@ -4,7 +4,7 @@ import { List } from "./list";
 import { cleanObject, useDebounce, useDocumentTitle, useMount } from "utils";
 import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Typography, Button } from "antd";
 import { useProject } from "utils/use-project";
 import { useUrlQueryParam } from "utils/url";
 import { useProjectsSearchParams, useProjectUser } from "./util";
@@ -13,16 +13,17 @@ export const ProjectListScreen = () => {
   useDocumentTitle("Project List", false);
   const [param, setParam] = useProjectsSearchParams();
   const users = useProjectUser();
-  const { isLoading, isError, error, data: list } = useProject(
+  const { isLoading, isError, error, data: list, retry } = useProject(
     useDebounce(param, 200)
   );
 
   return (
     <Container>
       <h1>项目列表</h1>
+      <Button onClick={retry}>retry</Button>
       <SearchPanel param={param} setParam={setParam} users={users} />
       {isError ? <Typography.Text>{error}</Typography.Text> : null}
-      <List dataSource={list || undefined} users={users} loading={isLoading} />
+      <List dataSource={list || undefined} users={users} loading={isLoading} retry={retry}/>
     </Container>
   );
 };

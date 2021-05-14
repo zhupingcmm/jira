@@ -17,6 +17,7 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
   users: User[];
+  retry?: () => void;
 }
 export const List = ({ users, ...props }: ListProps) => {
   const {mutate} = useEditProject();
@@ -30,14 +31,13 @@ export const List = ({ users, ...props }: ListProps) => {
           render(value, project) {
             return (
               <Pin checked={project.pin} onCheckedChange={(pin) =>{
-                mutate({id: project.id, pin})
+                mutate({id: project.id, pin}).then(()=> {if (props?.retry) props?.retry()})
               }}/>
             )
           }
         },
         {
           title: "名称",
-          // dataIndex: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
             return <Link to={String(project.id)}>{project.name}</Link>;

@@ -17,6 +17,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
     ...defaultInitialState,
     ...initialState,
   });
+  const [retry, setRetry] = useState(()=>()=>{});
 
   const setData = (data: D) =>
     setState({
@@ -32,14 +33,19 @@ export const useAsync = <D>(initialState?: State<D>) => {
       stat: "error",
     });
 
-  const run = (promise: Promise<D>) => {
+  const run = (promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
     if (!promise || !promise.then) {
       throw new Error("please input a promise!");
     }
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig)
+      }
+
+    });
     setState({ ...state, stat: "loading" });
     return promise
       .then((data) => {
-        console.log("data:", data);
         setData(data);
         return data;
       })
@@ -57,6 +63,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
     run,
     setData,
     setError,
+    retry,
     ...state,
   };
 };
