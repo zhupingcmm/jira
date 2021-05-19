@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useMountedRef } from "utils";
 
 interface State<D> {
   error: Error | null;
@@ -17,43 +18,55 @@ export const useAsync = <D>(initialState?: State<D>) => {
     ...defaultInitialState,
     ...initialState,
   });
-  const [retry, setRetry] = useState(()=>()=>{});
+  const [retry, setRetry] = useState(() => () => {});
 
-  const setData = (data: D) =>
-    setState({
-      data,
-      error: null,
-      stat: "success",
-    });
+  const setData = useCallback(
+    (data: D) =>
+      setState({
+        data,
+        error: null,
+        stat: "success",
+      }),
+    []
+  );
 
-  const setError = (error: Error) =>
-    setState({
-      data: null,
-      error,
-      stat: "error",
-    });
+  const mountRef = useMountedRef();
 
-  const run = (promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
-    if (!promise || !promise.then) {
-      throw new Error("please input a promise!");
-    }
-    setRetry(() => () => {
-      if (runConfig?.retry) {
-        run(runConfig?.retry(), runConfig)
+  const setError = useCallback(
+    (error: Error) =>
+      setState({
+        data: null,
+        error,
+        stat: "error",
+      }),
+    []
+  );
+
+  const run = useCallback(
+    (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
+      if (!promise || !promise.then) {
+        throw new Error("please input a promise!");
       }
-
-    });
-    setState({ ...state, stat: "loading" });
-    return promise
-      .then((data) => {
-        setData(data);
-        return data;
-      })
-      .catch((error) => {
-        setError(error);
-        return Promise.reject(error);
+      setRetry(() => () => {
+        if (runConfig?.retry) {
+          run(runConfig?.retry(), runConfig);
+        }
       });
-  };
+      setState({ ...state, stat: "loading" });
+      return promise
+        .then((data) => {
+          if (mountRef.current) {
+            setData(data);
+          }
+          return data;
+        })
+        .catch((error) => {
+          setError(error);
+          return Promise.reject(error);
+        });
+    },
+    [setState, setError, mountRef, state]
+  );
 
   return {
     isIdle: state.stat === "idle",

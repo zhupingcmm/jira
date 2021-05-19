@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { DevTools } from "jira-dev-tool";
 
-import { Spin, Typography } from "antd";
+import { Button, Spin, Typography } from "antd";
 
 export const Row = styled.div<{
   gap?: number | boolean;
@@ -45,3 +45,7 @@ export const FullPageError = ({ error }: { error: Error | null }) => (
     <Typography.Text type={"danger"}>{error?.message}</Typography.Text>
   </FullPage>
 );
+
+export const ButtonNoPadding = styled(Button)`
+  padding: 0;
+`;

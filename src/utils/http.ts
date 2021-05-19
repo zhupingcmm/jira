@@ -44,7 +44,6 @@ export const http = async (
 
 export const useHttp = () => {
   const { user } = useAuth();
-  //Todo TS
   return (...[endponit, config]: Parameters<typeof http>) =>
     http(endponit, { ...config, token: user?.token });
 };

@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import React from "react";
 import { Link } from "react-router-dom";
 import { User } from "./search-panel";
-import {Pin} from 'componnets/pin';
+import { Pin } from "componnets/pin";
 import { useEditProject } from "./util";
 
 export interface Project {
@@ -12,7 +12,7 @@ export interface Project {
   personId: number;
   organization: string;
   created: number;
-  pin: boolean
+  pin: boolean;
 }
 
 interface ListProps extends TableProps<Project> {
@@ -20,27 +20,36 @@ interface ListProps extends TableProps<Project> {
   retry?: () => void;
 }
 export const List = ({ users, ...props }: ListProps) => {
-  const {mutate} = useEditProject();
+  const { mutate } = useEditProject();
   return (
     <Table
       pagination={false}
       {...props}
       columns={[
         {
-          title: <Pin disabled={true} checked={true}/>,
+          title: <Pin disabled={true} checked={true} />,
           render(value, project) {
             return (
-              <Pin checked={project.pin} onCheckedChange={(pin) =>{
-                mutate({id: project.id, pin}).then(()=> {if (props?.retry) props?.retry()})
-              }}/>
-            )
-          }
+              <Pin
+                checked={project.pin}
+                onCheckedChange={(pin) => {
+                  mutate({ id: project.id, pin }).then(() => {
+                    if (props?.retry) props?.retry();
+                  });
+                }}
+              />
+            );
+          },
         },
         {
           title: "名称",
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
-            return <Link to={String(project.id)}>{project.name}</Link>;
+            return (
+              <Link to={String(project.id)} key={project?.id}>
+                {project.name}
+              </Link>
+            );
           },
         },
         {
@@ -51,7 +60,7 @@ export const List = ({ users, ...props }: ListProps) => {
           title: "负责人",
           render(value, project) {
             return (
-              <span>
+              <span key={project?.id}>
                 {users.find((user) => user.id === project.personId)?.name ||
                   "N/A"}
               </span>

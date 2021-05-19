@@ -8,8 +8,12 @@ import { Typography, Button } from "antd";
 import { useProject } from "utils/use-project";
 import { useUrlQueryParam } from "utils/url";
 import { useProjectsSearchParams, useProjectUser } from "./util";
+import { Row } from "componnets/lib";
 
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props: {
+  projectModelOpen: boolean;
+  setProjectModelOpen: (arg: boolean) => void;
+}) => {
   useDocumentTitle("Project List", false);
   const [param, setParam] = useProjectsSearchParams();
   const users = useProjectUser();
@@ -19,11 +23,22 @@ export const ProjectListScreen = () => {
 
   return (
     <Container>
-      <h1>项目列表</h1>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <Button onClick={() => props.setProjectModelOpen(true)}>
+          创建项目
+        </Button>
+      </Row>
+
       <Button onClick={retry}>retry</Button>
       <SearchPanel param={param} setParam={setParam} users={users} />
       {isError ? <Typography.Text>{error}</Typography.Text> : null}
-      <List dataSource={list || undefined} users={users} loading={isLoading} retry={retry}/>
+      <List
+        dataSource={list || undefined}
+        users={users}
+        loading={isLoading}
+        retry={retry}
+      />
     </Container>
   );
 };

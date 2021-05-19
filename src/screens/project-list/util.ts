@@ -25,46 +25,42 @@ export const useProjectUser = () => {
   return users;
 };
 
-
 export const useEditProject = () => {
-
-  const {run, ...asyncRequest} = useAsync();
+  const { run, ...asyncRequest } = useAsync();
 
   const client = useHttp();
 
   const mutate = (params: Partial<Project>) => {
-    return run(client(`projects/${params.id}`,{
-      data:params,
-      method: 'PATCH'
-    }))
-
-  }
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "PATCH",
+      })
+    );
+  };
 
   return {
     mutate,
-    ...asyncRequest
-  }
-
-}
-
+    ...asyncRequest,
+  };
+};
 
 export const useAddProject = () => {
-
-  const {run, ...asyncRequest} = useAsync();
+  const { run, ...asyncRequest } = useAsync();
 
   const client = useHttp();
 
   const mutate = (params: Partial<Project>) => {
-    return run(client(`projects/${params.id}`,{
-      data:params,
-      method: 'POST'
-    }))
-
-  }
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "POST",
+      })
+    );
+  };
 
   return {
     mutate,
-    ...asyncRequest
-  }
-
-}
+    ...asyncRequest,
+  };
+};

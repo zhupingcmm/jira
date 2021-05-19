@@ -1,48 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "screens/context/auth-context";
 import { Dropdown, Menu, Button } from "antd";
 import styled from "@emotion/styled";
-import { Row } from "componnets/lib";
+import { ButtonNoPadding, Row } from "componnets/lib";
 import { ReactComponent as SoftWareLogo } from "assets/software-logo.svg";
 import { RouteReset } from "utils";
 import { RootRouter } from "router";
+import { ProjectModal } from "screens/project-list/project-modal";
+import { ProjectPopover } from "componnets/project-popover";
 
 export const AuthenticatedApp = () => {
+  const [projectModelOpen, setProjectModelOpen] = useState(false);
   return (
     <Container>
-      <PageHeader />
+      <PageHeader
+        projectModelOpen={projectModelOpen}
+        setProjectModelOpen={setProjectModelOpen}
+      />
       <Main>
-        <RootRouter />
+        <RootRouter
+          projectModelOpen={projectModelOpen}
+          setProjectModelOpen={setProjectModelOpen}
+        />
       </Main>
     </Container>
   );
 };
 
-const PageHeader = () => {
-  const { logout, user } = useAuth();
+const PageHeader = (props: {
+  projectModelOpen: boolean;
+  setProjectModelOpen: (arg: boolean) => void;
+}) => {
+  //const [projectModelOpen, setProjectModelOpen] = useState(false);
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type="link" onClick={RouteReset}>
+        <ButtonNoPadding type="link" onClick={RouteReset}>
           <SoftWareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
-        </Button>
-        <h2>项目</h2>
-        <h2>用户</h2>
+        </ButtonNoPadding>
+        <ProjectPopover
+          openProjectModal={() => props.setProjectModelOpen(true)}
+        />
+        <span>用户</span>
       </HeaderLeft>
-      <HeaderRight>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key={"logout"}>
-                <a onClick={logout}>logout</a>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <a onClick={(e) => e.preventDefault()}> hi {user?.name}</a>
-        </Dropdown>
-      </HeaderRight>
+      <ProjectModal
+        projectModelOpen={props.projectModelOpen}
+        onClose={() => props.setProjectModelOpen(false)}
+      />
+      <User />
     </Header>
+  );
+};
+
+const User = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item key={"logout"}>
+            <a onClick={logout}>logout</a>
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <a onClick={(e) => e.preventDefault()}> hi {user?.name}</a>
+    </Dropdown>
   );
 };
 
@@ -61,8 +84,6 @@ const Header = styled(Row)`
 `;
 
 const HeaderLeft = styled(Row)``;
-
-const HeaderRight = styled.div``;
 
 const Main = styled.main`
   grid-area: main;

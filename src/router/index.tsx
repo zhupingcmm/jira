@@ -6,11 +6,22 @@ import { KanBan } from "screens/kanban";
 import { Epic } from "screens/epic";
 import { ProjectListScreen } from "screens/project-list";
 
-export const RootRouter = () => {
+export const RootRouter = (props: {
+  projectModelOpen: boolean;
+  setProjectModelOpen: (arg: boolean) => void;
+}) => {
   return (
     <Router>
       <Routes>
-        <Route path={"/project"} element={<ProjectListScreen />} />
+        <Route
+          path={"/project"}
+          element={
+            <ProjectListScreen
+              projectModelOpen={props.projectModelOpen}
+              setProjectModelOpen={props.setProjectModelOpen}
+            />
+          }
+        />
         <Route path={"/project/:projectId/*"} element={<ProjectScreen />}>
           <Routes>
             <Route path="/kanban" element={<KanBan />} />
