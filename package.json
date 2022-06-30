@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "formate": "npx prettier --write .",
-    "build": "webpack --config build/webpack/webpack.dev.js",
+    "start": "webpack server --config build/webpack/webpack.dev.js",
+    "compile": "webpack --config build/webpack/webpack.prod.js",
+    "build": "webpack --config build/webpack/webpack.prod.js",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -27,7 +29,8 @@
     "webpack": "^5.73.0",
     "webpack-clean-plugin": "^0.2.3",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.3"
+    "webpack-dev-server": "^4.9.3",
+    "webpack-merge": "^5.8.0"
   },
   "lint-staged": {
     "*.{js,css,md,ts,tsx,jsx}": "prettier --write"
