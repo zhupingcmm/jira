@@ -1,0 +1,29 @@
+@baseurl=http://localhost:8090
+
+###
+GET {{baseurl}}/users
+Content-Type: application/json
+
+###
+POST {{baseurl}}/user
+Content-Type: application/json
+
+{
+    "name": "郑华",
+    "password": 1234,
+    "email": "zh@hpe.com"
+}
+
+###
+GET  {{baseurl}}/projects
+Content-Type: application/json
+
+###
+POST {{baseurl}}/project
+Content-Type: application/json
+
+{
+    "name": "送餐路线规划系统",
+    "personId": 4,
+    "organization": "外卖组"
+}
