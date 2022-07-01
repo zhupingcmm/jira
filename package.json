@@ -33,6 +33,6 @@
     "webpack-merge": "^5.8.0"
   },
   "lint-staged": {
-    "*.{js,css,md,ts,tsx,jsx}": "prettier --write"
+    "*.{js,css,md,ts,tsx,jsx}": "prettier --write ."
   }
 }
