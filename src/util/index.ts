@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 export const cleanObject = (object: Object) => {
@@ -46,4 +46,22 @@ export const useDebounce = <T>(value: T, delay?: number) => {
     return () => clearTimeout(timer);
   }, [value, delay]);
   return debounceValue;
+};
+
+export const useArray = <T>(val: T[]) => {
+  const [value, setValue] = useState(val);
+  const clear = useCallback(() => {
+    setValue([]);
+  }, []);
+  const add = (item: T) =>
+    useCallback(() => {
+      setValue([...val, item]);
+    }, [value, setValue]);
+  const removeIndex = (index: number) =>
+    useCallback(() => {
+      value.splice(index, 1);
+      setValue(value);
+    }, [value, setValue]);
+
+  return { value, clear, add, removeIndex };
 };
