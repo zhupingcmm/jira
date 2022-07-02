@@ -1,5 +1,5 @@
+import React from "react";
 import { Project, User } from "@src/types";
-import React, { useEffect, useState } from "react";
 
 interface ListProps {
   users: User[];

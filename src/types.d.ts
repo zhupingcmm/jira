@@ -1,5 +1,5 @@
 export interface User {
-  id: 1;
+  id: number;
   name: string;
   password: string;
   email: string;
@@ -10,6 +10,7 @@ export interface Project {
   name: string;
   personId: number;
   organization: string;
+  pin: boolean;
 }
 
 export interface Param {

@@ -19,7 +19,7 @@ export const ProjectList = () => {
     name: "",
     personId: undefined,
   });
-  const debounceValue = useDebounce(param, 1000);
+  const debounceValue = useDebounce(param, 500);
   useEffect(() => {
     fetch(
       `${apiUrl}/projects?${qs.stringify(cleanObject(debounceValue))}`
