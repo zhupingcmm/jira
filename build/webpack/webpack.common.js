@@ -1,6 +1,8 @@
 const path = require("path");
 const WebpackCleanPlugin = require("webpack-clean-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -24,9 +26,17 @@ module.exports = {
         exclude: /node_modules/,
         loader: "ts-loader",
       },
+      {
+        test: /\.(css|scss|sass|less)$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name]-[contenthash:8].css",
+      chunkFilename: "[id].css",
+    }),
     new WebpackCleanPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "../../src/index.html"),
@@ -35,4 +45,8 @@ module.exports = {
       filename: "index.html",
     }),
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin()],
+  },
 };

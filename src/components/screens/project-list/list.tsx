@@ -7,7 +7,7 @@ interface ListProps {
 }
 export const List = ({ list, users }: ListProps) => {
   return (
-    <div>
+    <div className="container">
       <table>
         <thead>
           <th>名称</th>
