@@ -11,6 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, "../../dist"),
   },
   resolve: {
+    // 扩展 打包 ts tsx js jsx json
     extensions: ["*", ".ts", ".tsx", ".js", ".jsx", ".json"],
     alias: {
       "@src": path.resolve(__dirname, "../../src"),
