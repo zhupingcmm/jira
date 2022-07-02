@@ -3,7 +3,7 @@ import { List } from "@src/components/screens/project-list/list";
 import { SearchPanel } from "./search-panel";
 import { Project, User } from "@src/types";
 import * as qs from "qs";
-import { cleanObject } from "@src/util";
+import { cleanObject, useDebounce } from "@src/util";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 export interface Param {
@@ -19,18 +19,19 @@ export const ProjectList = () => {
     name: "",
     personId: undefined,
   });
+  const debounceValue = useDebounce(param, 1000);
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(param))}`).then(
-      async (res) => {
-        const { data } = await res.json();
-        if (res.ok) {
-          setList(data);
-        } else {
-          return Promise.reject(data);
-        }
+    fetch(
+      `${apiUrl}/projects?${qs.stringify(cleanObject(debounceValue))}`
+    ).then(async (res) => {
+      const { data } = await res.json();
+      if (res.ok) {
+        setList(data);
+      } else {
+        return Promise.reject(data);
       }
-    );
-  }, [param]);
+    });
+  }, [debounceValue]);
   useEffect(() => {
     fetch(`${apiUrl}/users`).then(async (res) => {
       const { data } = await res.json();
