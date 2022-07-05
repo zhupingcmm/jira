@@ -1,8 +1,15 @@
 const path = require("path");
-const WebpackCleanPlugin = require("webpack-clean-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const PurgeCssPlugin = require("purgecss-webpack-plugin");
+const glob = require("glob");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MyPlugin = require("./plugin/MyPlugin");
+
+const PATHS = {
+  src: path.join(__dirname, "../../src"),
+};
 
 module.exports = {
   entry: {
@@ -34,19 +41,18 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name]-[contenthash:8].css",
-      chunkFilename: "[id].css",
+      filename: "[name].[contenthash:8].css",
     }),
-    new WebpackCleanPlugin(),
+    // new PurgeCssPlugin({
+    //   paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true }),
+    // }),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "../../src/index.html"),
       favicon: path.resolve(__dirname, "../../static/favicon.ico"),
       hash: false,
       filename: "index.html",
     }),
+    new MyPlugin(),
   ],
-  optimization: {
-    minimize: true,
-    minimizer: [new CssMinimizerPlugin()],
-  },
 };

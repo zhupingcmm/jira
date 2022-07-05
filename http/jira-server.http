@@ -1,5 +1,5 @@
 @baseurl=http://localhost:8090
-
+@token=eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJqaXJhLXNlcnZlciIsInN1YiI6InpwIiwicGFzc3dvcmQiOiIxMjM0IiwidXNlcm5hbWUiOiJ6cCIsImV4cCI6MTY1Njk0MDQwOX0.9mgw0vnyj4HdXwnUPlZSFbRZGUX2RoLd1JnW6-g2J42S8tA_l4V2H_xCaqPX0yLtkDirxQljQlt87Z_NzptztQ
 ###
 GET {{baseurl}}/users
 Content-Type: application/json
@@ -27,3 +27,17 @@ Content-Type: application/json
     "personId": 4,
     "organization": "外卖组"
 }
+
+###
+POST {{baseurl}}/login
+Content-Type: application/json
+
+{
+    "name": "zp",
+    "password": 1234
+}
+
+### 
+GET {{baseurl}}/me
+Content-Type: application/json
+Authorization: Bearer {{token}}

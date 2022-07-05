@@ -3,6 +3,7 @@ export interface User {
   name: string;
   password: string;
   email: string;
+  token?: string;
 }
 
 export interface Project {
@@ -17,3 +18,5 @@ export interface Param {
   name: string;
   personId: string;
 }
+
+// export interface AuthForm
