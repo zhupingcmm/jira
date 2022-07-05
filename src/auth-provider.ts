@@ -1,5 +1,5 @@
+import { http } from "./util/http";
 import { User } from "./types";
-const apiUrl = process.env.REACT_APP_API_URL;
 
 const localStorageKey = "__auth_provider_token__";
 
@@ -14,37 +14,13 @@ export const handleResponse = ({ data }: { data: User }) => {
 };
 
 export const login = (data: Pick<User, "name" | "password">) => {
-  return fetch(`${apiUrl}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then(async (res) => {
-    const result = await res.json();
-    if (res.ok) {
-      console.log("result::", result);
-      return handleResponse(result);
-    } else {
-      return Promise.reject(result);
-    }
-  });
+  return http("login", { data, method: "POST" }).then((res) =>
+    handleResponse(res)
+  );
 };
 
 export const register = (data: Pick<User, "name" | "password">) => {
-  return fetch(`${apiUrl}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then(async (res) => {
-    const result = await res.json();
-    if (res.ok) {
-      console.log("result::", result);
-      return handleResponse(result);
-    } else {
-      return Promise.reject(result);
-    }
-  });
+  return http("/register", { data, method: "POST" }).then((res) =>
+    handleResponse(res)
+  );
 };
