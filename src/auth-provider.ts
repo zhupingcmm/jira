@@ -20,7 +20,7 @@ export const login = (data: Pick<User, "name" | "password">) => {
 };
 
 export const register = (data: Pick<User, "name" | "password">) => {
-  return http("/register", { data, method: "POST" }).then((res) =>
+  return http("register", { data, method: "POST" }).then((res) =>
     handleResponse(res)
   );
 };
