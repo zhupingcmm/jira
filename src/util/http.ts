@@ -8,7 +8,7 @@ interface Config extends RequestInit {
   data?: object;
   token?: string;
 }
-export const http = (
+export const http = async (
   endPoint: string,
   { data, token, ...customerConfig }: Config = {}
 ) => {
@@ -45,3 +45,24 @@ export const useHttp = () => {
     [user]
   );
 };
+
+let myFavoriteNumber: string | number;
+myFavoriteNumber = 9;
+myFavoriteNumber = "ss";
+
+type FavoriteNumber = string | number;
+
+let roseFavoriteNumber: FavoriteNumber = 9;
+
+type Person = {
+  name: string;
+  age: number;
+};
+
+const xiaomi: Partial<Person> = { name: "zp" };
+
+const tom: Pick<Person, "age"> = { age: 1 };
+
+const xiaoli: Omit<Person, "name" | "age"> = { age: 2 };
+
+// const lili: Exclude<Person, 'name'> = {age: 8}

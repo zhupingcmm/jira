@@ -10,9 +10,6 @@ export const Login = () => {
       .value;
     login({ name, password });
   };
-
-  console.log("login page::", user);
-
   return (
     <form onSubmit={handleSubmit}>
       <span>用户名: {user?.name}</span>

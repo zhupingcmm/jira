@@ -19,7 +19,6 @@ AuthContext.displayName = "AuthContext";
 export const bootstrapUser = async () => {
   let user = null;
   let token = auth.getToken() || undefined;
-  console.log("token::", token);
   if (!user && token) {
     token = token?.replace('"', "");
     user = await http("me", { token }).then((res) => {
