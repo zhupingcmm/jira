@@ -73,4 +73,29 @@ module.exports = {
     }),
     new MyPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: "commons",
+          chunks: "initial",
+          minChunks: 2,
+        },
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          name: "react-family",
+          chunks: "all",
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+        tool: {
+          test: /[\\/]node_modules[\\/](qs|lodash)[\\/]/,
+          name: "tool",
+          chunks: "all",
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
 };

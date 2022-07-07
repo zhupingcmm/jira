@@ -4,7 +4,7 @@ import { Button, Dropdown, Image, Menu, Typography } from "antd";
 import { useAuth } from "./context/auth-context";
 import softwareLogo from "@src/assets/software-logo.svg";
 
-export const AuthenticatedApp = () => {
+export default function AuthenticatedApp() {
   const { user, logout } = useAuth();
   return (
     <div className="authenticated_app">
@@ -39,4 +39,4 @@ export const AuthenticatedApp = () => {
       <ProjectList />
     </div>
   );
-};
+}

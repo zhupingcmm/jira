@@ -3,7 +3,7 @@ import { Login } from "./login";
 import { Register } from "./register";
 import { Button, Card } from "antd";
 
-export const UnAuthenticatedApp = () => {
+export default function UnAuthenticatedApp() {
   const [isRegister, setIsRegister] = useState(false);
 
   return (
@@ -18,4 +18,4 @@ export const UnAuthenticatedApp = () => {
       </Card>
     </div>
   );
-};
+}
