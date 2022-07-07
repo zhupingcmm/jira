@@ -17,7 +17,7 @@ export const ProjectList = () => {
     Partial<Pick<Project, "name" | "personId">>
   >({
     name: "",
-    personId: undefined,
+    personId: 0,
   });
   const debounceValue = useDebounce(param, 500);
   useEffect(() => {

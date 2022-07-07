@@ -1,5 +1,6 @@
 import React from "react";
 import { Project, User } from "@src/types";
+import { Table } from "antd";
 
 interface ListProps {
   users: User[];
@@ -7,25 +8,22 @@ interface ListProps {
 }
 export const List = ({ list, users }: ListProps) => {
   return (
-    <div className="container">
-      <table>
-        <thead>
-          <th>名称</th>
-          <th>负责人</th>
-        </thead>
-        <tbody>
-          {list?.map((_project) => {
-            return (
-              <tr>
-                <td>{_project.name}</td>
-                <td>
-                  {users?.find((user) => user?.id === _project.personId)?.name}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <Table
+      dataSource={list}
+      columns={[
+        {
+          title: "名称",
+          dataIndex: "name",
+        },
+        {
+          title: "负责人",
+          render: (value, project) => (
+            <span>
+              {users?.find((user) => user?.id === project.personId)?.name}
+            </span>
+          ),
+        },
+      ]}
+    />
   );
 };
