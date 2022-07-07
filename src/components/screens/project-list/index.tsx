@@ -21,16 +21,20 @@ export const ProjectList = () => {
   });
   const debounceValue = useDebounce(param, 500);
   useEffect(() => {
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(cleanObject(debounceValue))}`
-    ).then(async (res) => {
-      const { data } = await res.json();
-      if (res.ok) {
-        setList(data);
-      } else {
-        return Promise.reject(data);
+    const tempVal = { ...debounceValue };
+    if (tempVal?.personId === 0) {
+      delete tempVal.personId;
+    }
+    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(tempVal))}`).then(
+      async (res) => {
+        const { data } = await res.json();
+        if (res.ok) {
+          setList(data);
+        } else {
+          return Promise.reject(data);
+        }
       }
-    });
+    );
   }, [debounceValue]);
   useEffect(() => {
     fetch(`${apiUrl}/users`).then(async (res) => {
@@ -43,7 +47,7 @@ export const ProjectList = () => {
     });
   }, []);
   return (
-    <div>
+    <div className="project_list">
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       <List users={users || []} list={list || []} />
     </div>
