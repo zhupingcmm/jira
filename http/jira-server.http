@@ -5,13 +5,13 @@ GET {{baseurl}}/users
 Content-Type: application/json
 
 ###
-POST {{baseurl}}/user
+POST {{baseurl}}/register
 Content-Type: application/json
 
 {
-    "name": "郑华",
+    "name": "王文静",
     "password": 1234,
-    "email": "zh@hpe.com"
+    "email": "wwj@hpe.com"
 }
 
 ###
