@@ -9,7 +9,9 @@ export const App = () => {
   const { user } = useAuth();
   return (
     <div className="app">
-      {user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
+      <React.Suspense fallback={<p>loading</p>}>
+        {user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
+      </React.Suspense>
     </div>
   );
 };
