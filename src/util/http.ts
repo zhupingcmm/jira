@@ -5,7 +5,7 @@ import { cleanObject } from "@src/util/index";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 interface Config extends RequestInit {
-  data?: object;
+  data?: { [key: string]: unknown };
   token?: string;
 }
 export const http = async (
