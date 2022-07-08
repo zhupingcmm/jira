@@ -29,7 +29,7 @@ export const http = async (
   return window.fetch(`${apiUrl}/${endPoint}`, config).then(async (res) => {
     const result = await res.json();
     if (res.ok) {
-      return Promise.resolve(result);
+      return Promise.resolve(result?.data);
     } else {
       return Promise.reject(result);
     }
@@ -39,9 +39,8 @@ export const http = async (
 export const useHttp = () => {
   const { user } = useAuth();
   return useCallback(
-    (...[endpoint, config]: Parameters<typeof http>) => {
-      http(endpoint, { ...config, token: user?.token });
-    },
+    (...[endpoint, config]: Parameters<typeof http>) =>
+      http(endpoint, { ...config, token: user?.token }),
     [user]
   );
 };

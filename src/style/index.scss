@@ -74,3 +74,10 @@ html body #root {
     margin: 3.2rem 3.2rem 0 3.2rem;
   }
 }
+
+.full_page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

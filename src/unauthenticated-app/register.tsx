@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import { useAuth } from "@src/context/auth-context";
 import { Button, Form, Input } from "antd";
 

@@ -8,7 +8,7 @@ export const getToken = () => window.localStorage.getItem(localStorageKey);
 export const logout = async () =>
   window.localStorage.removeItem(localStorageKey);
 
-export const handleResponse = ({ data }: { data: User }) => {
+export const handleResponse = (data: User) => {
   window.localStorage.setItem(localStorageKey, JSON.stringify(data?.token));
   return data;
 };

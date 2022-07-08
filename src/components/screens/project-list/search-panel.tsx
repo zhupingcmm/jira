@@ -1,6 +1,6 @@
+import React from "react";
 import { Project, User } from "@src/types";
 import { Form, Input, Select } from "antd";
-import React from "react";
 
 interface SearchPanelProps {
   users: User[];

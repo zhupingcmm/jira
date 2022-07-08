@@ -1,16 +1,15 @@
 import React from "react";
 import { Project, User } from "@src/types";
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 
-interface ListProps {
+interface ListProps extends TableProps<Project> {
   users: User[];
-  list: Project[];
 }
-export const List = ({ list, users }: ListProps) => {
+export const List = ({ users, ...restProps }: ListProps) => {
+  console.log("dataSource", restProps);
   return (
     <Table
       pagination={false}
-      dataSource={list}
       columns={[
         {
           title: "名称",
@@ -25,6 +24,7 @@ export const List = ({ list, users }: ListProps) => {
           ),
         },
       ]}
+      {...restProps}
     />
   );
 };
