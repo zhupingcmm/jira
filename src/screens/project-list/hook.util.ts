@@ -1,4 +1,4 @@
-import { User } from "./../../../types.d";
+import { User } from "../../types";
 import { Project } from "@src/types";
 import { useDebounce } from "@src/util";
 import { useHttp } from "@src/util/http";

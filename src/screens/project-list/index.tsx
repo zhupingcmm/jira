@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { List } from "@src/components/screens/project-list/list";
+import { List } from "@src/screens/project-list/list";
 import { SearchPanel } from "./search-panel";
 import { Project } from "@src/types";
 import { useProject, useUser } from "./hook.util";

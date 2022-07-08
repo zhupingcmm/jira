@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectList } from "@src/components/screens/project-list";
+import { ProjectList } from "@src/screens/project-list";
 import { Button, Dropdown, Menu, Typography } from "antd";
 import { useAuth } from "./context/auth-context";
 import softwareLogo from "@src/assets/software-logo.svg";
