@@ -6,6 +6,7 @@ const PurgeCssPlugin = require("purgecss-webpack-plugin");
 const glob = require("glob");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MyPlugin = require("./plugin/MyPlugin");
+const { webpack } = require("webpack");
 
 const PATHS = {
   src: path.join(__dirname, "../../src"),
@@ -44,6 +45,7 @@ module.exports = {
             loader: "url-loader",
             options: {
               limit: 8192,
+              esModule: false,
             },
           },
         ],
@@ -72,6 +74,7 @@ module.exports = {
       filename: "index.html",
     }),
     new MyPlugin(),
+    new CssMinimizerPlugin(),
   ],
   optimization: {
     splitChunks: {
