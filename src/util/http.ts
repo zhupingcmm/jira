@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useAuth } from "@src/context/auth-context";
 import * as qs from "qs";
 import { cleanObject } from "@src/util/index";
+import { Store } from "react-notifications-component";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 interface Config extends RequestInit {
@@ -26,14 +27,34 @@ export const http = async (
   } else {
     config.body = JSON.stringify(data || {});
   }
-  return window.fetch(`${apiUrl}/${endPoint}`, config).then(async (res) => {
-    const result = await res.json();
-    if (res.ok) {
-      return Promise.resolve(result?.data);
-    } else {
-      return Promise.reject(result);
-    }
-  });
+  return window
+    .fetch(`${apiUrl}/${endPoint}`, config)
+    .then(async (res) => {
+      const result = await res.json();
+      if (res.ok) {
+        return Promise.resolve(result?.data);
+      } else {
+        return Promise.reject(result);
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+      Store.addNotification({
+        title: "Error",
+        message: e?.message,
+        type: "danger",
+        insert: "top",
+
+        container: "top-right",
+        animationIn: ["animate__animated animate__fadeIn"], // `animate.css v4` classes
+        animationOut: ["animate__animated animate__fadeOut"], //
+        dismiss: {
+          showIcon: true,
+          duration: 2000,
+          pauseOnHover: true,
+        },
+      });
+    });
 };
 
 export const useHttp = () => {

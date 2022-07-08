@@ -9,7 +9,7 @@ export const useProject = (
   param: Partial<Pick<Project, "name" | "personId">>
 ) => {
   const client = useHttp();
-  const { data: list, isLoading, isSuccess, run } = useAsync<Project[]>();
+  const { data: list, isLoading, run } = useAsync<Project[]>();
   const debounceValue = useDebounce(param, 500);
   useEffect(() => {
     const tempVal = { ...debounceValue };

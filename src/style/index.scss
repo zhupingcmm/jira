@@ -1,4 +1,5 @@
 @import "~antd/dist/antd.css";
+@import "~react-notifications-component/dist/theme.css";
 html {
   /** rem em */
   // em 相对于父元素的font-size
@@ -75,7 +76,7 @@ html body #root {
   }
 }
 
-.full_page{
+.full_page {
   display: flex;
   justify-content: center;
   align-items: center;
