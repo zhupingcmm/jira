@@ -38,7 +38,6 @@ export const http = async (
       }
     })
     .catch((e) => {
-      console.log(e);
       Store.addNotification({
         title: "Error",
         message: e?.message,

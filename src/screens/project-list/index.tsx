@@ -3,12 +3,14 @@ import { List } from "@src/screens/project-list/list";
 import { SearchPanel } from "./search-panel";
 import { Project } from "@src/types";
 import { useProject, useUser } from "./hook.util";
+import { useDocumentTitle } from "@src/util";
 
 export interface Param {
   name: string;
   personId: string;
 }
 export const ProjectList = () => {
+  useDocumentTitle("项目管理", false);
   const [param, setParam] = useState<
     Partial<Pick<Project, "name" | "personId">>
   >({

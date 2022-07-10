@@ -6,7 +6,6 @@ interface ListProps extends TableProps<Project> {
   users: User[];
 }
 export const List = ({ users, ...restProps }: ListProps) => {
-  console.log("dataSource", restProps);
   return (
     <Table
       pagination={false}
