@@ -9,7 +9,7 @@ export interface User {
 export interface Project {
   id: number;
   name: string;
-  personId: number;
+  personId: string;
   organization: string;
   pin: boolean;
 }

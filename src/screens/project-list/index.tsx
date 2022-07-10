@@ -4,6 +4,7 @@ import { SearchPanel } from "./search-panel";
 import { Project } from "@src/types";
 import { useProject, useUser } from "./hook.util";
 import { useDocumentTitle } from "@src/util";
+import { useUrlParam } from "@src/util/url";
 
 export interface Param {
   name: string;
@@ -11,12 +12,7 @@ export interface Param {
 }
 export const ProjectList = () => {
   useDocumentTitle("项目管理", false);
-  const [param, setParam] = useState<
-    Partial<Pick<Project, "name" | "personId">>
-  >({
-    name: "",
-    personId: 0,
-  });
+  const [param, setParam] = useUrlParam(["name", "personId"]);
   const { list, isLoading } = useProject(param);
   const users = useUser();
   return (

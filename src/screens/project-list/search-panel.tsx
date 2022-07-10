@@ -28,7 +28,7 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
           onChange={(value) => {
             setParam({
               ...param,
-              personId: Number(value),
+              personId: value,
             });
           }}
         >

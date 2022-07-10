@@ -13,7 +13,6 @@ export const List = ({ users, ...restProps }: ListProps) => {
       columns={[
         {
           title: "名称",
-          // dataIndex: "name",
           render: (value, project) => {
             return <Link to={String(project?.id)}>{project?.name}</Link>;
           },
@@ -22,7 +21,10 @@ export const List = ({ users, ...restProps }: ListProps) => {
           title: "负责人",
           render: (value, project) => (
             <span>
-              {users?.find((user) => user?.id === project.personId)?.name}
+              {
+                users?.find((user) => user?.id === Number(project.personId))
+                  ?.name
+              }
             </span>
           ),
         },

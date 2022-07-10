@@ -26,7 +26,7 @@ html body #root {
     background-position: left bottom, right bottom;
     background-size: calc(((100vw - 40rem) / 2) - 3.2rem),
       calc(((100vw - 40rem) / 2) - 3.2rem), cover;
-    background-image: url("../assets/left.svg"), url("../assets//right.svg");
+    background-image: url("../assets/left.svg"), url("../assets/right.svg");
   }
   & .header {
     background: url("../assets/logo.svg") no-repeat center;

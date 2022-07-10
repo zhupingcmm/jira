@@ -13,7 +13,7 @@ export const useProject = (
   const debounceValue = useDebounce(param, 500);
   useEffect(() => {
     const tempVal = { ...debounceValue };
-    if (tempVal?.personId === 0) {
+    if (Number(tempVal?.personId) === 0) {
       delete tempVal.personId;
     }
     run(client("projects", { data: tempVal }));
