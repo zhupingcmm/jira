@@ -9,7 +9,7 @@ export interface User {
 export interface Project {
   id: number;
   name: string;
-  personId: string;
+  personId: number;
   organization: string;
   pin: boolean;
 }
@@ -18,5 +18,3 @@ export interface Param {
   name: string;
   personId: string;
 }
-
-// export interface AuthForm

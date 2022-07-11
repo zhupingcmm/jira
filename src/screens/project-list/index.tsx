@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { List } from "@src/screens/project-list/list";
 import { SearchPanel } from "./search-panel";
 import { Project } from "@src/types";
@@ -13,11 +13,18 @@ export interface Param {
 export const ProjectList = () => {
   useDocumentTitle("项目管理", false);
   const [param, setParam] = useUrlParam(["name", "personId"]);
-  const { list, isLoading } = useProject(param);
+  const searchParam = useMemo(() => {
+    return { ...param, personId: Number(param.personId) || undefined };
+  }, [param]);
+  const { list, isLoading } = useProject(searchParam);
   const users = useUser();
   return (
     <div className="project_list">
-      <SearchPanel users={users || []} param={param} setParam={setParam} />
+      <SearchPanel
+        users={users || []}
+        param={searchParam}
+        setParam={setParam}
+      />
       <List users={users || []} dataSource={list || []} loading={isLoading} />
     </div>
   );

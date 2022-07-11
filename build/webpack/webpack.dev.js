@@ -4,7 +4,6 @@ const common = require("./webpack.common");
 const dotenv = require("dotenv");
 
 const env = dotenv.config({ path: ".env.development" }).parsed;
-console.log("env::", env);
 const envKeys = Object.keys(env).reduce((prev, next) => {
   console.log(next);
   prev[`process.env.${next}`] = JSON.stringify(env[next]);
@@ -17,6 +16,12 @@ module.exports = merge(common, {
   devServer: {
     port: 3001,
     open: true,
+    historyApiFallback: true,
+    client: {
+      overlay: {
+        warnings: false,
+      },
+    },
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin()
