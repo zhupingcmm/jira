@@ -21,7 +21,7 @@ export const useProject = (
   return { list, isLoading };
 };
 
-export const useUser = () => {
+export const useUsers = () => {
   const client = useHttp();
   const { data: users, run } = useAsync<User[]>();
 

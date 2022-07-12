@@ -18,3 +18,5 @@ export interface Param {
   name: string;
   personId: string;
 }
+
+export type Raw = string | number;
