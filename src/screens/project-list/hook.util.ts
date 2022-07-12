@@ -9,16 +9,17 @@ export const useProject = (
   param: Partial<Pick<Project, "name" | "personId">>
 ) => {
   const client = useHttp();
-  const { data: list, isLoading, run } = useAsync<Project[]>();
+  const { data: list, isLoading, run, retry } = useAsync<Project[]>();
   const debounceValue = useDebounce(param, 500);
   useEffect(() => {
     const tempVal = { ...debounceValue };
     if (Number(tempVal?.personId) === 0) {
       delete tempVal.personId;
     }
-    run(client("projects", { data: tempVal }));
+    const fetchProject = () => client("projects", { data: tempVal });
+    run(fetchProject(), { retry: fetchProject });
   }, [debounceValue]);
-  return { list, isLoading };
+  return { list, isLoading, retry };
 };
 
 export const useEditProject = () => {
@@ -26,7 +27,9 @@ export const useEditProject = () => {
   const { run, ...rest } = useAsync<Project>();
 
   const mutate = (params?: Partial<Project>) => {
-    run(client(`project/${params?.id}`, { data: params, method: "PATCH" }));
+    return run(
+      client(`project/${params?.id}`, { data: params, method: "PATCH" })
+    );
   };
 
   return { mutate, ...rest };

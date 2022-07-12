@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 interface State<D> {
   error: Error | null;
   data: D | null;
@@ -16,38 +16,48 @@ export const useAsync = <D>(initState?: State<D>) => {
     ...defaultStateInitialState,
     ...initState,
   });
+  const [retry, setRetry] = useState(() => () => {});
 
-  const setData = (data: D) => {
+  const setData = useCallback((data: D) => {
     setState({
       data,
       error: null,
       stat: "success",
     });
-  };
+  }, []);
 
-  const setError = (error: Error) => {
+  const setError = useCallback((error: Error) => {
     setState({
       error,
       data: null,
       stat: "error",
     });
-  };
+  }, []);
 
-  const run = async (promise: Promise<D>) => {
+  const run = async (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("请输入promise对象");
     }
+
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig);
+      }
+    });
     setState({ ...state, stat: "loading" });
 
     return promise
       .then((res) => {
         console.log(res);
         setData(res);
-        return res;
+        return Promise.resolve(res);
       })
       .catch((e) => {
         setError(e);
-        return e;
+        return Promise.reject(e);
       });
   };
 
@@ -59,6 +69,7 @@ export const useAsync = <D>(initState?: State<D>) => {
     run,
     setState,
     setData,
+    retry,
     ...state,
   };
 };

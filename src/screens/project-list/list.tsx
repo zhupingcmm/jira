@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Project, User } from "@src/types";
 import { Table, TableProps } from "antd";
 import { Link } from "react-router-dom";
@@ -7,12 +7,16 @@ import { useEditProject } from "./hook.util";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
+  refresh: () => void;
 }
-export const List = ({ users, ...restProps }: ListProps) => {
+export const List = ({ users, refresh, ...restProps }: ListProps) => {
   const { mutate } = useEditProject();
-  const handlePinChange = (id: number) => (checked: boolean) => {
-    mutate({ id, pin: checked });
-  };
+  const handlePinChange = useCallback(
+    (id: number) => (checked: boolean) => {
+      mutate({ id, pin: checked }).then(() => refresh());
+    },
+    [refresh, mutate]
+  );
   return (
     <Table
       pagination={false}

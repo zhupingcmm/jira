@@ -16,12 +16,17 @@ export const ProjectList = () => {
   const searchParam = useMemo(() => {
     return { ...param, personId: Number(param.personId) || undefined };
   }, [param]);
-  const { list, isLoading } = useProject(searchParam);
+  const { list, isLoading, retry } = useProject(searchParam);
   const users = useUsers();
   return (
     <div className="project_list">
       <SearchPanel param={searchParam} setParam={setParam} />
-      <List users={users || []} dataSource={list || []} loading={isLoading} />
+      <List
+        refresh={retry}
+        users={users || []}
+        dataSource={list || []}
+        loading={isLoading}
+      />
     </div>
   );
 };
