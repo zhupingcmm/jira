@@ -21,6 +21,17 @@ export const useProject = (
   return { list, isLoading };
 };
 
+export const useEditProject = () => {
+  const client = useHttp();
+  const { run, ...rest } = useAsync<Project>();
+
+  const mutate = (params?: Partial<Project>) => {
+    run(client(`project/${params?.id}`, { data: params, method: "PATCH" }));
+  };
+
+  return { mutate, ...rest };
+};
+
 export const useUsers = () => {
   const client = useHttp();
   const { data: users, run } = useAsync<User[]>();
