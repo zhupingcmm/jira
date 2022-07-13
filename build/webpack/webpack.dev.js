@@ -22,6 +22,11 @@ module.exports = merge(common, {
         warnings: false,
       },
     },
+    // proxy: {
+    //   "/": {
+    //     target: "http://localhost:8090"
+    //   }
+    // }
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin()
