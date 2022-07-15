@@ -1,3 +1,4 @@
+import { useMountRef } from "./index";
 import { useState, useCallback } from "react";
 interface State<D> {
   error: Error | null;
@@ -17,6 +18,7 @@ export const useAsync = <D>(initState?: State<D>) => {
     ...initState,
   });
   const [retry, setRetry] = useState(() => () => {});
+  const mountRef = useMountRef();
 
   const setData = useCallback((data: D) => {
     setState({
@@ -34,32 +36,33 @@ export const useAsync = <D>(initState?: State<D>) => {
     });
   }, []);
 
-  const run = async (
-    promise: Promise<D>,
-    runConfig?: { retry: () => Promise<D> }
-  ) => {
-    if (!promise || !promise.then) {
-      throw new Error("请输入promise对象");
-    }
-
-    setRetry(() => () => {
-      if (runConfig?.retry) {
-        run(runConfig?.retry(), runConfig);
+  const run = useCallback(
+    async (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
+      if (!promise || !promise.then) {
+        throw new Error("请输入promise对象");
       }
-    });
-    setState({ ...state, stat: "loading" });
 
-    return promise
-      .then((res) => {
-        console.log(res);
-        setData(res);
-        return Promise.resolve(res);
-      })
-      .catch((e) => {
-        setError(e);
-        return Promise.reject(e);
+      setRetry(() => () => {
+        if (runConfig?.retry) {
+          run(runConfig?.retry(), runConfig);
+        }
       });
-  };
+      setState((preState) => ({ ...preState, stat: "loading" }));
+
+      return promise
+        .then((res) => {
+          if (mountRef.current) {
+            setData(res);
+          }
+          return Promise.resolve(res);
+        })
+        .catch((e) => {
+          setError(e);
+          return Promise.reject(e);
+        });
+    },
+    [setState, setRetry, mountRef]
+  );
 
   return {
     isLoading: state.stat === "loading",
