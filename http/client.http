@@ -1,0 +1,13 @@
+@baseurl=http://localhost:8887
+
+###
+POST {{baseurl}}/order
+Content-Type: application/json
+
+{
+    "orderNo": 1,
+    "amount": 10,
+    "status": 0,
+    "userId": 1,
+    "couponRecordId": 1
+}

@@ -1,0 +1,28 @@
+//变量定义
+@fontSize: 12px;
+@backGroundColor: red;
+.block {
+  font-size: @fontSize;
+  border: 1px solid red;
+  border-radius: 4px;
+}
+
+.wrapper {
+  background: lighten(@backGroundColor, 40%);
+  // mixin
+  .nav {
+    .block();
+  }
+  .content {
+    &:extend(.block);
+    .block();
+    //平级
+    &:hover {
+      background-color: @backGroundColor;
+    }
+  }
+  //extend
+  .footer:extend(.block) {
+    font-family: "Courier New", Courier, monospace;
+  }
+}

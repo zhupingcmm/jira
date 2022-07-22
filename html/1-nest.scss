@@ -1,0 +1,28 @@
+$fontSize: 12px;
+$backgroundColor: red;
+
+.container {
+  display: inline;
+}
+
+@mixin block($fontSize) {
+  font-size: $fontSize;
+  border: 10px solid red;
+  border-radius: 4px;
+}
+.wrapper {
+  background: lighten($backgroundColor, 40%);
+  .nav {
+    @include block($fontSize);
+  }
+  .content {
+    font-size: $fontSize + 2px;
+    &:hover {
+      background-color: $backgroundColor;
+    }
+  }
+  .footer {
+    @extend .container;
+    font-family: "Courier New", Courier, monospace;
+  }
+}
