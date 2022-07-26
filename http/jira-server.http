@@ -9,7 +9,7 @@ POST {{baseurl}}/register
 Content-Type: application/json
 
 {
-    "name": "王文静",
+    "name": "xxx",
     "password": 1234,
     "email": "wwj@hpe.com"
 }
@@ -41,3 +41,15 @@ Content-Type: application/json
 GET {{baseurl}}/me
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+###
+POST {{baseurl}}/order
+Content-Type: application/json
+
+{
+    "orderNo": 1,
+    "amount": 10,
+    "status": 0,
+    "userId": 1,
+    "couponRecordId": 1
+}
