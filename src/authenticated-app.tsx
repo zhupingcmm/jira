@@ -7,6 +7,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Navigate, Route, Routes } from "react-router";
 import { ProjectScreen } from "./screens/project";
 import { resetRoute } from "./util";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./slice/project-list-slice";
 
 export default function AuthenticatedApp() {
   return (
@@ -28,6 +30,8 @@ export default function AuthenticatedApp() {
 
 export const PageHeader = () => {
   const { user, logout } = useAuth();
+  const dispatch = useDispatch();
+
   return (
     <header className="header">
       <div className="header_left">
@@ -39,7 +43,13 @@ export const PageHeader = () => {
         />
 
         <Typography.Text style={{ padding: "2rem" }}>收藏项目</Typography.Text>
-        <Typography.Text>创建项目</Typography.Text>
+        <Button
+          onClick={() => {
+            dispatch(projectListActions.openProjectModal());
+          }}
+        >
+          创建项目
+        </Button>
       </div>
       <div className="header_right">
         <Dropdown

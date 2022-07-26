@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { List } from "@src/screens/project-list/list";
 import { SearchPanel } from "./search-panel";
-import { Project } from "@src/types";
 import { useProject, useUsers } from "./hook.util";
 import { useDocumentTitle } from "@src/util";
 import { useUrlParam } from "@src/util/url";
+import { ProjectModel } from "./project-model";
 
 export interface Param {
   name: string;
@@ -27,6 +27,7 @@ export const ProjectList = () => {
         dataSource={list || []}
         loading={isLoading}
       />
+      <ProjectModel />
     </div>
   );
 };
