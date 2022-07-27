@@ -1,3 +1,4 @@
+import { useConfig } from "./../../util/index";
 import { User } from "../../types";
 import { Project } from "@src/types";
 import { useDebounce } from "@src/util";
@@ -14,8 +15,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-export const useProject = (
-  param: Partial<Pick<Project, "name" | "personId">>
+export const useProjects = (
+  param: Partial<Pick<Project, "name" | "personId" | "id">>
 ) => {
   const client = useHttp();
   const debounceValue = useDebounce(param, 500);
@@ -31,20 +32,43 @@ export const useProject = (
   );
 };
 
+export const useProject = (projectId: number) => {
+  const client = useHttp();
+  return useQuery<Project>(
+    ["project", projectId],
+    () => client(`project/${projectId}`),
+    {
+      enabled: Boolean(projectId),
+    }
+  );
+};
+
 export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp();
   const queryClient = useQueryClient();
   return useMutation(
     (params?: Partial<Project>) =>
       client(`project/${params?.id}`, { data: params, method: "PATCH" }),
-    {
-      onSuccess(data, variables, context) {
-        queryClient.invalidateQueries(queryKey);
-      },
-      onError(err: any, variables: any, context?: any) {
-        queryClient.setQueryData(queryKey, context.previousItems);
-      },
-    }
+    useConfig(queryKey)
+  );
+};
+
+export const useAddProject = (queryKey: QueryKey) => {
+  const client = useHttp();
+  const queryClient = useQueryClient();
+  return useMutation(
+    (params?: Partial<Project>) =>
+      client("project", { data: params, method: "POST" }),
+    useConfig(queryKey)
+  );
+};
+
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const client = useHttp();
+  // const queryClient = useQueryClient();
+  return useMutation(
+    (projectId: number) => client(`project/${projectId}`, { method: "DELETE" }),
+    useConfig(queryKey)
   );
 };
 
@@ -54,7 +78,7 @@ export const useUsers = () => {
   return users;
 };
 
-export const useProjectQueryKey = () => {
+export const useProjectModal = () => {
   const [{ projectId }, setProjectId] = useUrlParam(["projectId"]);
 
   const startEdit = useCallback((id: Number) => {
@@ -64,9 +88,25 @@ export const useProjectQueryKey = () => {
     setProjectId({ projectId: undefined });
   }, []);
 
+  const { data: projectData } = useProject(Number(projectId));
   return {
     projectId,
     startEdit,
     cleanProjectId,
+    projectData,
   };
+};
+
+export const useProjectSearchParams = () => {
+  const [param, setParam] = useUrlParam(["name", "personId"]);
+  return [
+    useMemo(() => {
+      return { ...param, personId: Number(param.personId) || undefined };
+    }, [param]),
+    setParam,
+  ] as const;
+};
+export const useProjectQueryKey = () => {
+  const [param] = useProjectSearchParams();
+  return ["projects", param];
 };

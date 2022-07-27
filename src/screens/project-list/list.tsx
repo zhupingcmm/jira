@@ -3,14 +3,14 @@ import { Project, User } from "@src/types";
 import { Button, Dropdown, Menu, Table, TableProps } from "antd";
 import { Link } from "react-router-dom";
 import { Pin } from "@src/components/pin";
-import { useEditProject } from "./hook.util";
+import { useEditProject, useProjectQueryKey } from "./hook.util";
 import { More } from "./more";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
 }
 export const List = ({ users, ...restProps }: ListProps) => {
-  const { mutate } = useEditProject(["projects"]);
+  const { mutate } = useEditProject(useProjectQueryKey());
   const handlePinChange = useCallback(
     (id: number) => (checked: boolean) => {
       mutate({ id, pin: checked });
@@ -48,6 +48,10 @@ export const List = ({ users, ...restProps }: ListProps) => {
               }
             </span>
           ),
+        },
+        {
+          title: "部门",
+          dataIndex: "organization",
         },
         {
           title: "操作",

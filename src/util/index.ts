@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { useEffect } from "react";
+
+import { useQueryClient, QueryKey } from "@tanstack/react-query";
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
@@ -103,4 +105,19 @@ export const isError = (value: any): value is Error => value?.message;
 export const abc = ({ error }: { error: unknown }) => {
   if (isError(error)) {
   }
+};
+
+export const useConfig = (queryKey: QueryKey) => {
+  const queryClient = useQueryClient();
+  return {
+    onSuccess: () => queryClient.invalidateQueries(queryKey),
+    onMutate: (variables: any) => {
+      const previousItems = queryClient.getQueryData(queryKey);
+      console.log("onMutate variables", variables, previousItems);
+      return { previousItems };
+    },
+    onError: (error: any, newItem: any, context: any) => {
+      queryClient.setQueryData(queryKey, context.previousItems);
+    },
+  };
 };

@@ -83,3 +83,14 @@ html body #root {
   align-items: center;
   height: 100vh;
 }
+
+.project_model {
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .project_model_form{
+    width: 40rem;
+  }
+
+}

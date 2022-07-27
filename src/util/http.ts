@@ -43,7 +43,6 @@ export const http = async (
         message: e?.message,
         type: "danger",
         insert: "top",
-
         container: "top-right",
         animationIn: ["animate__animated animate__fadeIn"], // `animate.css v4` classes
         animationOut: ["animate__animated animate__fadeOut"], //
@@ -53,6 +52,7 @@ export const http = async (
           pauseOnHover: true,
         },
       });
+      return Promise.reject(e);
     });
 };
 

@@ -1,9 +1,8 @@
 import React, { useMemo } from "react";
 import { List } from "@src/screens/project-list/list";
 import { SearchPanel } from "./search-panel";
-import { useProject, useUsers } from "./hook.util";
+import { useProjects, useUsers, useProjectSearchParams } from "./hook.util";
 import { useDocumentTitle } from "@src/util";
-import { useUrlParam } from "@src/util/url";
 import { ProjectModel } from "./project-model";
 
 export interface Param {
@@ -12,21 +11,13 @@ export interface Param {
 }
 export const ProjectList = () => {
   useDocumentTitle("项目管理", false);
-  const [param, setParam] = useUrlParam(["name", "personId"]);
-  const searchParam = useMemo(() => {
-    return { ...param, personId: Number(param.personId) || undefined };
-  }, [param]);
-  const { data: list } = useProject(searchParam);
+  const [searchParam, setParam] = useProjectSearchParams();
+  const { data: list } = useProjects(searchParam);
   const users = useUsers();
   return (
     <div className="project_list">
       <SearchPanel param={searchParam} setParam={setParam} />
-      <List
-        // refresh={retry}
-        users={users || []}
-        dataSource={list || []}
-        // loading={isLoading}
-      />
+      <List users={users || []} dataSource={list || []} />
       <ProjectModel />
     </div>
   );
