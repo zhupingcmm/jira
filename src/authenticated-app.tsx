@@ -45,7 +45,7 @@ export const PageHeader = () => {
         <Typography.Text style={{ padding: "2rem" }}>收藏项目</Typography.Text>
         <Button
           onClick={() => {
-            dispatch(projectListActions.openProjectModal());
+            dispatch(projectListActions.openProjectModal({ status: "create" }));
           }}
         >
           创建项目

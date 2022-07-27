@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
 import { Project, User } from "@src/types";
-import { Table, TableProps } from "antd";
+import { Button, Dropdown, Menu, Table, TableProps } from "antd";
 import { Link } from "react-router-dom";
 import { Pin } from "@src/components/pin";
 import { useEditProject } from "./hook.util";
+import { More } from "./more";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
@@ -48,6 +49,10 @@ export const List = ({ users, refresh, ...restProps }: ListProps) => {
               }
             </span>
           ),
+        },
+        {
+          title: "操作",
+          render: (value, project) => <More project={project} />,
         },
       ]}
       {...restProps}

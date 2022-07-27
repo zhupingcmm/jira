@@ -4,6 +4,8 @@ import { useDebounce } from "@src/util";
 import { useHttp } from "@src/util/http";
 import { useAsync } from "@src/util/use-async";
 import { useEffect } from "react";
+import { useUrlParam } from "@src/util/url";
+import { useCallback } from "react";
 
 export const useProject = (
   param: Partial<Pick<Project, "name" | "personId">>
@@ -44,4 +46,21 @@ export const useUsers = () => {
   }, []);
 
   return users;
+};
+
+export const useProjectQueryKey = () => {
+  const [{ projectId }, setProjectId] = useUrlParam(["projectId"]);
+
+  const startEdit = useCallback((id: Number) => {
+    setProjectId({ projectId: id });
+  }, []);
+  const cleanProjectId = useCallback(() => {
+    setProjectId({ projectId: undefined });
+  }, []);
+
+  return {
+    projectId,
+    startEdit,
+    cleanProjectId,
+  };
 };
