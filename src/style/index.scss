@@ -85,12 +85,10 @@ html body #root {
 }
 
 .project_model {
-  
   display: flex;
   justify-content: center;
   align-items: center;
-  .project_model_form{
+  .project_model_form {
     width: 40rem;
   }
-
 }

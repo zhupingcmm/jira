@@ -45,17 +45,14 @@ export const useProject = (projectId: number) => {
 
 export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
-  return useMutation(
-    (params?: Partial<Project>) =>
-      client(`project/${params?.id}`, { data: params, method: "PATCH" }),
-    useConfig(queryKey)
-  );
+  return useMutation((params?: Partial<Project>) => {
+    console.log("params===", params);
+    return client(`project/${params?.id}`, { data: params, method: "PATCH" });
+  }, useConfig(queryKey));
 };
 
 export const useAddProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
   return useMutation(
     (params?: Partial<Project>) =>
       client("project", { data: params, method: "POST" }),
@@ -65,7 +62,6 @@ export const useAddProject = (queryKey: QueryKey) => {
 
 export const useDeleteProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  // const queryClient = useQueryClient();
   return useMutation(
     (projectId: number) => client(`project/${projectId}`, { method: "DELETE" }),
     useConfig(queryKey)

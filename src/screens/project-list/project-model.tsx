@@ -31,7 +31,7 @@ export const ProjectModel = () => {
       mutateAsync({ ...projectData, ...values }).then(() => form.resetFields());
       close();
     },
-    [mutateAsync, form, close]
+    [mutateAsync, form, close, projectData]
   );
 
   const title = state.status === "edit" ? "修改项目" : "新建项目";
