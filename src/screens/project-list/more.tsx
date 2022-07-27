@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { projectListSlice, projectState } from "@src/slice/project-list-slice";
 
 export const More = ({ project }: { project: Project }) => {
-  const { projectId, startEdit } = useProjectQueryKey();
+  const { startEdit } = useProjectQueryKey();
   const dispatch = useDispatch();
 
   const handleEdit = useCallback(() => {

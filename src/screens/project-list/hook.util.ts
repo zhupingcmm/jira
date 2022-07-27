@@ -3,48 +3,54 @@ import { Project } from "@src/types";
 import { useDebounce } from "@src/util";
 import { useHttp } from "@src/util/http";
 import { useAsync } from "@src/util/use-async";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useUrlParam } from "@src/util/url";
 import { useCallback } from "react";
+import {
+  useQuery,
+  useMutation,
+  QueryKey,
+  QueryClient,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export const useProject = (
   param: Partial<Pick<Project, "name" | "personId">>
 ) => {
   const client = useHttp();
-  const { data: list, isLoading, run, retry } = useAsync<Project[]>();
   const debounceValue = useDebounce(param, 500);
-  useEffect(() => {
+  const data = useMemo(() => {
     const tempVal = { ...debounceValue };
     if (Number(tempVal?.personId) === 0) {
       delete tempVal.personId;
     }
-    const fetchProject = () => client("projects", { data: tempVal });
-    run(fetchProject(), { retry: fetchProject });
+    return tempVal;
   }, [debounceValue]);
-  return { list, isLoading, retry };
+  return useQuery<Project[], Error>(["projects", data], () =>
+    client("projects", { data })
+  );
 };
 
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const { run, ...rest } = useAsync<Project>();
-
-  const mutate = (params?: Partial<Project>) => {
-    return run(
-      client(`project/${params?.id}`, { data: params, method: "PATCH" })
-    );
-  };
-
-  return { mutate, ...rest };
+  const queryClient = useQueryClient();
+  return useMutation(
+    (params?: Partial<Project>) =>
+      client(`project/${params?.id}`, { data: params, method: "PATCH" }),
+    {
+      onSuccess(data, variables, context) {
+        queryClient.invalidateQueries(queryKey);
+      },
+      onError(err: any, variables: any, context?: any) {
+        queryClient.setQueryData(queryKey, context.previousItems);
+      },
+    }
+  );
 };
 
 export const useUsers = () => {
   const client = useHttp();
-  const { data: users, run } = useAsync<User[]>();
-
-  useEffect(() => {
-    run(client("users"));
-  }, []);
-
+  const { data: users } = useQuery(["users"], () => client("users"));
   return users;
 };
 

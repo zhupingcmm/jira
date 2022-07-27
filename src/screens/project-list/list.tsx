@@ -8,15 +8,14 @@ import { More } from "./more";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
-  refresh: () => void;
 }
-export const List = ({ users, refresh, ...restProps }: ListProps) => {
-  const { mutate } = useEditProject();
+export const List = ({ users, ...restProps }: ListProps) => {
+  const { mutate } = useEditProject(["projects"]);
   const handlePinChange = useCallback(
     (id: number) => (checked: boolean) => {
-      mutate({ id, pin: checked }).then(() => refresh());
+      mutate({ id, pin: checked });
     },
-    [refresh, mutate]
+    [mutate]
   );
   return (
     <Table

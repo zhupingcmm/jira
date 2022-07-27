@@ -97,3 +97,10 @@ export const useMountRef = () => {
 
   return mountRef;
 };
+
+export const isError = (value: any): value is Error => value?.message;
+
+export const abc = ({ error }: { error: unknown }) => {
+  if (isError(error)) {
+  }
+};
