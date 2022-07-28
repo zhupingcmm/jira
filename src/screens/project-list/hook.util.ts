@@ -1,19 +1,11 @@
 import { useConfig } from "./../../util/index";
-import { User } from "../../types";
 import { Project } from "@src/types";
 import { useDebounce } from "@src/util";
 import { useHttp } from "@src/util/http";
-import { useAsync } from "@src/util/use-async";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useUrlParam } from "@src/util/url";
 import { useCallback } from "react";
-import {
-  useQuery,
-  useMutation,
-  QueryKey,
-  QueryClient,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, QueryKey } from "@tanstack/react-query";
 
 export const useProjects = (
   param: Partial<Pick<Project, "name" | "personId" | "id">>
@@ -46,7 +38,6 @@ export const useProject = (projectId: number) => {
 export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp();
   return useMutation((params?: Partial<Project>) => {
-    console.log("params===", params);
     return client(`project/${params?.id}`, { data: params, method: "PATCH" });
   }, useConfig(queryKey));
 };

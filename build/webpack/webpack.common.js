@@ -85,7 +85,7 @@ module.exports = {
           minChunks: 2,
         },
         react: {
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|@reduxjs\/toolkit|@tanstack\/react-query)[\\/]/,
           name: "react-family",
           chunks: "all",
           priority: 10,
@@ -94,6 +94,13 @@ module.exports = {
         tool: {
           test: /[\\/]node_modules[\\/](qs|lodash)[\\/]/,
           name: "tool",
+          chunks: "all",
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+        component: {
+          test: /[\\/]node_modules[\\/](antd)[\\/]/,
+          name: "antd",
           chunks: "all",
           priority: 10,
           reuseExistingChunk: true,
